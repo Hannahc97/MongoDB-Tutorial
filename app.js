@@ -25,12 +25,21 @@ connectToDb((err)=> {
 // routes
 app.get("/books", (req, res) => {
 
+    //Pagination 
+    // "query" -> to access query parameter, "p" -> whatever parameter is called --> get the value/page requested 
+    const page = req.query.p || 0 // logical or incase they don't pass query parameter so need default of 0 
+
+    // how many books of page we want to send back 
+    const booksPerPage = 3 
+    
     let books = []
 
     db.collection("books") // collection is a function --> used to reference a specific collection in the db --> pass in whatever collection we need 
     // db.books --> we originally used this in the shell 
         .find() // returns a cursor toArray forEach 
         .sort({author: 1}) // sorts in asc for author 
+        .skip(page * booksPerPage) //skips certain amount of pages of results 
+        .limit(booksPerPage)
         .forEach(book => { books.push(book)  // this is async as fetching batches of docs so need .then
         })
         .then(() => {
