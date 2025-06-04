@@ -113,3 +113,8 @@ app.patch("/books/:id", (req, res) => {
         res.status(500).json({error: "Not a valid document id"})
     }
 })
+
+// index --> a list of values of a certian field in our document 
+// Like an index in a book
+// Creating an index for a collection requires work especially when changing that collection
+
