@@ -57,3 +57,33 @@ app.get("/books/:id", (req, res) => {
         res.status(500).json({error: "Not a valid document id"})
     }
 })
+
+app.post("/books", (req, res) => {
+    // want to get the body of the post request
+    const book = req.body
+
+    db.collection("books")
+        .insertOne(book)
+        .then(result => {
+            res.status(200).json(result)
+        })
+        .catch(err => {
+            res.status(500).json({error: "Could not create a new document"})
+        })
+})
+
+app.delete("/books/:id", (req, res) => {
+
+    if(ObjectId.isValid(req.params.id)){
+        db.collection("books")
+        .deleteOne({_id: new ObjectId(req.params.id)})
+        .then(result => {
+            res.status(200).json(result) // we get a result object back which we send to client
+        })
+        .catch(err => {
+            res.status(500).json({error: "Could not delete the document"})
+        })
+    } else {
+        res.status(500).json({error: "Not a valid document id"})
+    }
+})
