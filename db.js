@@ -2,11 +2,13 @@ import { MongoClient } from "mongodb";
 
 let dbConnection
 
+let uri = "mongodb+srv://han:test123@cluster0.nnmpzdh.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+
 // connect to a database
 // cb is callback function -> pass in cb function as argument that we want to fire after we try to connect to the db so after the sucess of that connection attempt or after an error 
 export const connectToDb = (cb) => {
     // "connect" connects to the db using the connection string
-    MongoClient.connect("mongodb://localhost:27017/bookstore") // async task
+    MongoClient.connect(uri) // async task
     // returns a promise that we tack a "then" method onto, to fire a function when complete
         .then((client) => {
             // client is what we've created by connecting the db 
